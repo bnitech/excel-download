@@ -16,6 +16,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // SXSSFWorkbook
+    // POI - Stable release 4.1.2 / February 14, 2020
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
