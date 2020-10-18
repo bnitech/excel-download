@@ -37,8 +37,8 @@ public class CarService implements ICarService {
 			userDto1.setAge(123);
 			userDtoList.add(userDto1);
 			UserDto userDto2 = new UserDto();
-			userDto2.setName("A");
-			userDto2.setAge(123);
+			userDto2.setName("B");
+			userDto2.setAge(456);
 			userDtoList.add(userDto2);
 			carExcelDto.setUserList(userDtoList);
 

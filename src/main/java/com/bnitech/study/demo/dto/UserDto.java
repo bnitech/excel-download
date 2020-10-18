@@ -1,5 +1,6 @@
 package com.bnitech.study.demo.dto;
 
+import com.github.ckpoint.toexcel.annotation.ExcelHeader;
 import com.lannstark.ExcelColumn;
 
 import lombok.Getter;
@@ -11,9 +12,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserDto {
 
-	@ExcelColumn(headerName = "사용자 이름")
+	@ExcelHeader(headerName = "이름")
 	private String name;
 
-	@ExcelColumn
+	@ExcelHeader(headerName = "나이")
 	private int age;
 }

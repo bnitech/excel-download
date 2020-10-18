@@ -144,7 +144,38 @@ public class CarController {
 		ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF);
 		ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.HORIZON);
 
-		sheet.from(carService.getCarInfo());
+		List<CarExcelDto> carExcelDtoList = carService.getCarInfo();
+
+		// 첫번째 줄
+		sheet.createTitleCell(1, "회사");
+		sheet.merge(1, 2);
+
+		sheet.createTitleCell(1, "차종");
+		sheet.merge(1, 2);
+
+		// 빈칸
+		sheet.createTitleCell(1, "");
+		sheet.merge(1, 2);
+
+		sheet.createTitleCell(2, "사용자 목록");
+		sheet.merge(2, 1);
+
+		sheet.createTitleCell(1, "가격");
+		sheet.merge(1, 2);
+
+		sheet.createTitleCell(1, "평점");
+		sheet.merge(1, 2);
+
+		// 두번째 줄
+		sheet.newLine();
+		sheet.createTitleCell(1, "사용자1-이름", "사용자2-이름");
+
+		// 세번째(나머지) 줄
+		for (CarExcelDto carExcelDto : carExcelDtoList) {
+			sheet.createCellToNewline(carExcelDto.getCompany(), carExcelDto.getName(), "",
+				carExcelDto.getUserList().get(0).getName(), carExcelDto.getUserList().get(1).getName(),
+				carExcelDto.getPrice(), carExcelDto.getRating());
+		}
 
 		response.setHeader("Set-Cookie", "fileDownload=true; path=/");
 		response.setHeader("Content-Disposition", "attachment; filename=\"Test List.xlsx\"");
