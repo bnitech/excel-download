@@ -96,9 +96,9 @@ public class CarController {
 			bodyCell2.setCellValue(dto.getName());
 			bodyCell2.setCellStyle(bodyCellStyle);
 
-			Cell bodyCell3 = bodyRow.createCell(2);
-			bodyCell3.setCellValue(dto.getPrice());
-			bodyCell3.setCellStyle(bodyCellStyle);
+			// Cell bodyCell3 = bodyRow.createCell(2);
+			// bodyCell3.setCellValue(dto.getPrice());
+			// bodyCell3.setCellStyle(bodyCellStyle);
 
 			Cell bodyCell4 = bodyRow.createCell(3);
 			bodyCell4.setCellValue(dto.getRating());
