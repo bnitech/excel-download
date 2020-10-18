@@ -2,7 +2,9 @@ package com.bnitech.study.demo.controller;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bnitech.study.demo.dto.CarExcelDto;
+import com.bnitech.study.demo.dto.UserDto;
 import com.bnitech.study.demo.service.ICarService;
 import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
@@ -140,6 +143,7 @@ public class CarController {
 
 	@GetMapping("/car/excel/v3")
 	public void downloadCarInfoByCkpoint(HttpServletResponse response) throws IOException {
+		final int USER_NUM = 2;
 
 		ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF);
 		ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.HORIZON);
@@ -157,8 +161,8 @@ public class CarController {
 		sheet.createTitleCell(1, "");
 		sheet.merge(1, 2);
 
-		sheet.createTitleCell(2, "사용자 목록");
-		sheet.merge(2, 1);
+		sheet.createTitleCell(USER_NUM, "사용자 목록");
+		sheet.merge(USER_NUM, 1);
 
 		sheet.createTitleCell(1, "가격");
 		sheet.merge(1, 2);
@@ -166,15 +170,22 @@ public class CarController {
 		sheet.createTitleCell(1, "평점");
 		sheet.merge(1, 2);
 
+		// 사용자 이름 타이틀 생성
+		List<String> userNameTitleList = new ArrayList<>();
+		for (int i = 1; i <= USER_NUM; i++) {
+			userNameTitleList.add("사용자" + i + "-이름");
+		}
+
 		// 두번째 줄
 		sheet.newLine();
-		sheet.createTitleCell(1, "사용자1-이름", "사용자2-이름");
+		sheet.createTitleCell(1, userNameTitleList.toArray(new String[0]));
 
 		// 세번째(나머지) 줄
 		for (CarExcelDto carExcelDto : carExcelDtoList) {
-			sheet.createCellToNewline(carExcelDto.getCompany(), carExcelDto.getName(), "",
-				carExcelDto.getUserList().get(0).getName(), carExcelDto.getUserList().get(1).getName(),
-				carExcelDto.getPrice(), carExcelDto.getRating());
+			Stream<Object> result = Stream.of(carExcelDto.getCompany(), carExcelDto.getName(), "");
+			result = Stream.concat(result, carExcelDto.getUserList().stream().map(UserDto::getName));
+			result = Stream.concat(result, Stream.of(carExcelDto.getPrice(), carExcelDto.getRating()));
+			sheet.createCellToNewline(result.toArray());
 		}
 
 		response.setHeader("Set-Cookie", "fileDownload=true; path=/");

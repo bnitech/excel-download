@@ -22,9 +22,9 @@ public class CarExcelDto {
 	private String name; // 차종
 
 	@ExcelHeader(headerName = "")
-	private Boolean blank1 = null; // 공백
+	private Boolean blank = null; // 공백
 
-	private List<UserDto> userList; // 가격
+	private List<UserDto> userList;
 
 	@ExcelHeader(headerName = "가격")
 	private int price; // 가격

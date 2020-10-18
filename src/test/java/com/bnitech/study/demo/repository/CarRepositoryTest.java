@@ -23,7 +23,6 @@ class CarRepositoryTest {
 		Assertions.assertFalse(carList.isEmpty());
 
 		for (Car car : carList) {
-			// TODO : toString()
 			System.out.println(car);
 		}
 	}
