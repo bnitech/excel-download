@@ -1,4 +1,4 @@
-package com.bnitech.study.demo.dao;
+package com.bnitech.study.demo.dto;
 
 import com.lannstark.ExcelColumn;
 

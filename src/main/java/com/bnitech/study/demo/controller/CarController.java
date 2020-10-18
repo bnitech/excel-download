@@ -16,15 +16,17 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bnitech.study.demo.dto.CarExcelDto;
 import com.bnitech.study.demo.service.ICarService;
+import com.github.ckpoint.toexcel.core.ToWorkBook;
+import com.github.ckpoint.toexcel.core.ToWorkSheet;
+import com.github.ckpoint.toexcel.core.type.SheetDirection;
+import com.github.ckpoint.toexcel.core.type.ToWorkBookType;
 import com.lannstark.excel.ExcelFile;
 import com.lannstark.excel.onesheet.OneSheetExcelFile;
 
@@ -96,9 +98,9 @@ public class CarController {
 			bodyCell2.setCellValue(dto.getName());
 			bodyCell2.setCellStyle(bodyCellStyle);
 
-			// Cell bodyCell3 = bodyRow.createCell(2);
-			// bodyCell3.setCellValue(dto.getPrice());
-			// bodyCell3.setCellStyle(bodyCellStyle);
+			Cell bodyCell3 = bodyRow.createCell(2);
+			bodyCell3.setCellValue(dto.getPrice());
+			bodyCell3.setCellStyle(bodyCellStyle);
 
 			Cell bodyCell4 = bodyRow.createCell(3);
 			bodyCell4.setCellValue(dto.getRating());
@@ -115,7 +117,7 @@ public class CarController {
 
 	private void applyCellStyle(CellStyle cellStyle, Color color) {
 		XSSFCellStyle xssfCellStyle = (XSSFCellStyle)cellStyle;
-		xssfCellStyle.setFillForegroundColor(new XSSFColor(color, new DefaultIndexedColorMap()));
+		// xssfCellStyle.setFillForegroundColor(new XSSFColor(color, new DefaultIndexedColorMap()));
 		cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 		cellStyle.setAlignment(HorizontalAlignment.CENTER);
 		cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -134,5 +136,19 @@ public class CarController {
 		response.setHeader("Content-Disposition", "attachment; filename=\"Test List.xlsx\"");
 
 		excelFile.write(response.getOutputStream());
+	}
+
+	@GetMapping("/car/excel/v3")
+	public void downloadCarInfoByCkpoint(HttpServletResponse response) throws IOException {
+
+		ToWorkBook workBook = new ToWorkBook(ToWorkBookType.XSSF);
+		ToWorkSheet sheet = workBook.createSheet().updateDirection(SheetDirection.HORIZON);
+
+		sheet.from(carService.getCarInfo());
+
+		response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+		response.setHeader("Content-Disposition", "attachment; filename=\"Test List.xlsx\"");
+
+		workBook.write(response.getOutputStream());
 	}
 }
