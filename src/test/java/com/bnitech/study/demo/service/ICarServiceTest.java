@@ -27,7 +27,7 @@ class ICarServiceTest {
 		Assertions.assertFalse(carExcelDtoList.isEmpty());
 
 		for (CarExcelDto carExcelDto : carExcelDtoList) {
-			System.out.println(carExcelDto.getName());
+			System.out.println(carExcelDto);
 		}
 
 	}

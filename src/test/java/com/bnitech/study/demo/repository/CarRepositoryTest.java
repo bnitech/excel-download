@@ -24,7 +24,7 @@ class CarRepositoryTest {
 
 		for (Car car : carList) {
 			// TODO : toString()
-			System.out.println(car.getName());
+			System.out.println(car);
 		}
 	}
 }
