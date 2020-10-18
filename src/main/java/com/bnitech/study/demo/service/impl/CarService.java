@@ -11,15 +11,13 @@ import com.bnitech.study.demo.dto.CarExcelDto;
 import com.bnitech.study.demo.repository.CarRepository;
 import com.bnitech.study.demo.service.ICarService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class CarService implements ICarService {
 
-	private CarRepository carRepository;
-
-	@Autowired
-	public CarService(CarRepository carRepository) {
-		this.carRepository = carRepository;
-	}
+	final private CarRepository carRepository;
 
 	@Override
 	public List<CarExcelDto> getCarInfo() {
