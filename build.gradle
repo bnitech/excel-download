@@ -20,6 +20,17 @@ dependencies {
     // POI - Stable release 4.1.2 / February 14, 2020
     implementation 'org.apache.poi:poi-ooxml:4.1.2'
 
+    // Hibernate for JPA
+    // Spring Boot 2.3.4.RELEASE >> Hibernate EntityManager 5.4.21.Final
+    implementation 'org.hibernate:hibernate-entitymanager:5.4.21.Final'
+
+    // H2 Database Engine
+    // Downloaded Version 1.4.199 (2019-03-13), Last Stable
+    implementation 'com.h2database:h2:1.4.199'
+
+    // JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
