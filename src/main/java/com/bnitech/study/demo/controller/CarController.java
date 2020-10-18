@@ -25,17 +25,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bnitech.study.demo.dto.CarExcelDto;
 import com.bnitech.study.demo.service.ICarService;
+import com.lannstark.excel.ExcelFile;
+import com.lannstark.excel.onesheet.OneSheetExcelFile;
 
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping(path = "/api/v1/excel")
+@RequestMapping(path = "/api")
 @RestController
 @RequiredArgsConstructor
-public class ExcelController {
+public class CarController {
 
 	final private ICarService carService;
 
 	@GetMapping(path = "/car")
+	public List<CarExcelDto> getCarInfo() {
+		return carService.getCarInfo();
+	}
+
+	@GetMapping(path = "/car/excel/v1")
 	public void downloadCarInfo(HttpServletResponse response) throws IOException {
 
 		// Excel 파일 만듬
@@ -116,5 +123,16 @@ public class ExcelController {
 		cellStyle.setBorderTop(BorderStyle.THIN);
 		cellStyle.setBorderRight(BorderStyle.THIN);
 		cellStyle.setBorderBottom(BorderStyle.THIN);
+	}
+
+	@GetMapping("/car/excel/v2")
+	public void downloadCarInfoByLannstark(HttpServletResponse response) throws IOException {
+		List<CarExcelDto> excelDtoList = carService.getCarInfo();
+		ExcelFile excelFile = new OneSheetExcelFile<>(excelDtoList, CarExcelDto.class);
+
+		response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+		response.setHeader("Content-Disposition", "attachment; filename=\"Test List.xlsx\"");
+
+		excelFile.write(response.getOutputStream());
 	}
 }
