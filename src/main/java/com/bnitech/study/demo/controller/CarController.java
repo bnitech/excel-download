@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bnitech.study.demo.dto.CarExcelDto;
 import com.bnitech.study.demo.dto.UserDto;
+import com.bnitech.study.demo.module.ExcelSheet;
+import com.bnitech.study.demo.module.ExcelWorkbook;
 import com.bnitech.study.demo.service.ICarService;
 import com.github.ckpoint.toexcel.core.ToWorkBook;
 import com.github.ckpoint.toexcel.core.ToWorkSheet;
@@ -192,5 +194,39 @@ public class CarController {
 		response.setHeader("Content-Disposition", "attachment; filename=\"Test List.xlsx\"");
 
 		workBook.write(response.getOutputStream());
+	}
+
+	@GetMapping("/car/excel/v4")
+	public void downloadCarInfoByExcelWorkbook(HttpServletResponse response) throws IOException {
+		ExcelWorkbook workbook = new ExcelWorkbook();
+		ExcelSheet sheet = workbook.createSheet();
+
+		// Excel 렌더링에 사용되는 DTO
+		List<CarExcelDto> carExcelDtoList = carService.getCarInfo();
+
+		// region Header
+		sheet.createHeader("회사");
+		sheet.createHeader("차종");
+		sheet.createHeader();
+		sheet.createHeader("가격");
+		sheet.createHeader("평점");
+		// endregion
+
+		// region Body
+		// for (CarExcelDto car : carExcelDtoList) {
+		// 	sheet.createBodyRow(
+		// 		car.getCompany(),
+		// 		car.getName(),
+		// 		"",
+		// 		String.valueOf(car.getPrice()),
+		// 		String.valueOf(car.getRating())
+		// 	);
+		// }
+		// endregion
+
+		response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+		response.setHeader("Content-Disposition", "attachment; filename=\"Car List.xlsx\"");
+
+		workbook.write(response.getOutputStream());
 	}
 }
