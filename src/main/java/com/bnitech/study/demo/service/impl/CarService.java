@@ -17,36 +17,46 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CarService implements ICarService {
 
-	final private CarRepository carRepository;
+    final private CarRepository carRepository;
 
-	@Override
-	public List<CarExcelDto> getCarInfo() {
+    @Override
+    public List<CarExcelDto> getCarInfo() {
 
-		List<Car> carList = carRepository.findAll();
+        List<Car> carList = carRepository.findAll();
 
-		List<CarExcelDto> carExcelDtoList = new ArrayList<>();
-		for (Car car : carList) {
-			CarExcelDto carExcelDto = new CarExcelDto();
-			carExcelDto.setCompany(car.getCompany());
-			carExcelDto.setName(car.getName());
+        List<CarExcelDto> carExcelDtoList = new ArrayList<>();
+        for (Car car : carList) {
+            CarExcelDto carExcelDto = new CarExcelDto();
+            carExcelDto.setCompany(car.getCompany());
+            carExcelDto.setName(car.getName());
 
-			List<UserDto> userDtoList = new ArrayList<>();
+            List<UserDto> userDtoList = new ArrayList<>();
 
-			UserDto userDto1 = new UserDto();
-			userDto1.setName("A");
-			userDto1.setAge(123);
-			userDtoList.add(userDto1);
-			UserDto userDto2 = new UserDto();
-			userDto2.setName("B");
-			userDto2.setAge(456);
-			userDtoList.add(userDto2);
-			carExcelDto.setUserList(userDtoList);
+            UserDto userDto1 = new UserDto();
+            userDto1.setName("A");
+            userDto1.setAge(123);
+            userDtoList.add(userDto1);
+            UserDto userDto2 = new UserDto();
+            userDto2.setName("B");
+            userDto2.setAge(456);
+            userDtoList.add(userDto2);
+            carExcelDto.setUserList(userDtoList);
 
-			carExcelDto.setPrice(car.getPrice());
-			carExcelDto.setRating(car.getRating());
-			carExcelDtoList.add(carExcelDto);
-		}
+            carExcelDto.setPrice(car.getPrice());
+            carExcelDto.setRating(car.getRating());
+            carExcelDtoList.add(carExcelDto);
+        }
 
-		return carExcelDtoList;
-	}
+        return carExcelDtoList;
+    }
+
+    public void setCarInfo(CarExcelDto carExcelDto, long carId) {
+        Car carInfo = new Car();
+        carInfo.setId(carId);
+        carInfo.setName(carExcelDto.getName());
+        carInfo.setCompany(carExcelDto.getCompany());
+        carInfo.setPrice(carExcelDto.getPrice());
+        carInfo.setRating(carExcelDto.getRating());
+        carRepository.save(carInfo);
+    }
 }

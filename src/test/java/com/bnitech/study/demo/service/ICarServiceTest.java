@@ -1,5 +1,6 @@
 package com.bnitech.study.demo.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -29,6 +30,11 @@ class ICarServiceTest {
 		for (CarExcelDto carExcelDto : carExcelDtoList) {
 			System.out.println(carExcelDto);
 		}
-
 	}
+
+	@Test
+    void setCarInfo(){
+        CarExcelDto carExcelDto = new CarExcelDto("회사", "차종", 500, 3.0, Collections.emptyList());
+        carService.setCarInfo(carExcelDto, 100L);
+    }
 }
