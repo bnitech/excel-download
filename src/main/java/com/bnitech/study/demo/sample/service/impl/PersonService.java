@@ -32,9 +32,4 @@ public class PersonService implements IPersonService {
 
         return personDtoList;
     }
-
-    @Override
-    public PersonDto getPerson(long personId) {
-        return null;
-    }
 }

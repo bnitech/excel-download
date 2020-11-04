@@ -27,11 +27,6 @@ public class PersonController {
         return personService.getPersonList();
     }
 
-    @GetMapping("/person/{personId}")
-    public PersonDto getPersonInfo(@PathVariable long personId) {
-        return personService.getPerson(personId);
-    }
-
     @GetMapping("/person/excel")
     public void getPersonInfoListByExcel(HttpServletResponse response) throws IOException {
 

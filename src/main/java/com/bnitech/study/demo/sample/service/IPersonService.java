@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface IPersonService {
     List<PersonDto> getPersonList();
-
-    PersonDto getPerson(long personId);
 }
