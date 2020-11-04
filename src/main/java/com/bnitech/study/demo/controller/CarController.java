@@ -187,36 +187,36 @@ public class CarController {
 
     @GetMapping("/car/excel/v4")
     public void downloadCarInfoByExcelWorkbook(HttpServletResponse response) throws IOException {
-        ExcelWorkbook workbook = new ExcelWorkbook();
-        ExcelSheet sheet = workbook.createSheet();
-
-        // Excel 렌더링에 사용되는 DTO
-        List<CarExcelDto> carExcelDtoList = carService.getCarInfo();
-
-        // region Header
-        sheet.createHeader("회사");
-        sheet.createHeader("차종");
-        sheet.createHeader();
-        sheet.createHeader("가격");
-        sheet.createHeader("평점");
-        // endregion
-
-        // region Body
-        for (CarExcelDto carExcelDto : carExcelDtoList) {
-            System.out.println(carExcelDto);
-            sheet.createBodyRow(
-                    carExcelDto.getCompany(),
-                    carExcelDto.getName(),
-                    "",
-                    String.valueOf(carExcelDto.getPrice()),
-                    String.valueOf(carExcelDto.getRating())
-            );
-        }
-        // endregion
-
-        response.setHeader("Set-Cookie", "fileDownload=true; path=/");
-        response.setHeader("Content-Disposition", "attachment; filename=\"Car List.xlsx\"");
-
-        workbook.write(response.getOutputStream());
+//        ExcelWorkbook workbook = new ExcelWorkbook();
+//        ExcelSheet sheet = workbook.createSheet();
+//
+//        // Excel 렌더링에 사용되는 DTO
+//        List<CarExcelDto> carExcelDtoList = carService.getCarInfo();
+//
+//        // region Header
+//        sheet.createHeader("회사");
+//        sheet.createHeader("차종");
+//        sheet.createHeader();
+//        sheet.createHeader("가격");
+//        sheet.createHeader("평점");
+//        // endregion
+//
+//        // region Body
+////        for (CarExcelDto carExcelDto : carExcelDtoList) {
+////            System.out.println(carExcelDto);
+////            sheet.createBodyRow(
+////                    carExcelDto.getCompany(),
+////                    carExcelDto.getName(),
+////                    "",
+////                    String.valueOf(carExcelDto.getPrice()),
+////                    String.valueOf(carExcelDto.getRating())
+////            );
+////        }
+//        // endregion
+//
+//        response.setHeader("Set-Cookie", "fileDownload=true; path=/");
+//        response.setHeader("Content-Disposition", "attachment; filename=\"Car List.xlsx\"");
+//
+//        workbook.write(response.getOutputStream());
     }
 }

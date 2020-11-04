@@ -1,57 +1,82 @@
 package com.bnitech.study.demo.module;
 
-import org.apache.poi.ss.usermodel.Row;
+import com.bnitech.study.demo.module.enumeration.ExcelCellType;
+import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.IntStream;
+
+import static com.bnitech.study.demo.module.enumeration.ExcelCellType.BLANK;
 
 public class ExcelSheet {
-	private final static int DEFAULT_WIDTH_SIZE = 2000;
-	private final static int TINY_WIDTH_SIZE = 200;
 
-	private int rowIndex;
-	private int columnIndex;
+    private static final SpreadsheetVersion supplyExcelVersion = SpreadsheetVersion.EXCEL2007;
 
-	private Sheet sheet;
+    private final Workbook workbook;
+    private final Sheet sheet;
+    private final List<ExcelCell> excelFieldList;
 
-	public ExcelSheet(Sheet sheet) {
-		this.sheet = sheet;
-		this.rowIndex = 0;
-		this.columnIndex = 0;
-	}
+    private int rowIndex;
+    private int columnIndex;
 
-	private Row getRow() {
-		return sheet.getRow(rowIndex) == null ? sheet.createRow(rowIndex) : sheet.getRow(rowIndex);
-	}
+    public ExcelSheet(Workbook workbook, Sheet sheet) {
+        this.workbook = workbook;
+        this.sheet = sheet;
+        this.excelFieldList = new LinkedList<>();
 
-	public ExcelCell createHeader() {
-		sheet.setColumnWidth(columnIndex, DEFAULT_WIDTH_SIZE);
-		return new ExcelCell(getRow().createCell(columnIndex++)).setBlank();
-	}
+        this.rowIndex = 0;
+        this.columnIndex = 0;
+    }
 
-	public ExcelCell createTinyHeader() {
-		sheet.setColumnWidth(columnIndex, TINY_WIDTH_SIZE);
-		return new ExcelCell(getRow().createCell(columnIndex++)).setBlank();
-	}
+    public int addField(ExcelCellType excelCellType, Object value) {
+        excelFieldList.add(createExcelCell().setExcelCellType(excelCellType).setExcelCellValue(value));
+        return rowIndex;
+    }
 
-	public ExcelCell createHeader(String value) {
-		sheet.setColumnWidth(columnIndex, DEFAULT_WIDTH_SIZE);
-		return new ExcelCell(getRow().createCell(columnIndex++)).setValue(value);
-	}
+    public int addFields(ExcelCellType excelCellType, Object... values) {
+        for (Object value : values) {
+            excelFieldList.add(createExcelCell().setExcelCellType(excelCellType).setExcelCellValue(value));
+        }
+        return rowIndex;
+    }
 
-	public ExcelCell createTinyHeader(String value) {
-		sheet.setColumnWidth(columnIndex, TINY_WIDTH_SIZE);
-		return new ExcelCell(getRow().createCell(columnIndex++)).setValue(value);
-	}
+    public int addBlankField() {
+        excelFieldList.add(createExcelCell().setExcelCellType(BLANK));
+        return rowIndex;
+    }
 
-	public void createBodyRow(String... values) {
-		newLine();
-		for (String value : values) {
-			new ExcelCell(sheet.createRow(rowIndex).createCell(columnIndex++)).setValue(value);
-		}
+    public int addBlankFields(int fieldNum) {
+        while (fieldNum-- > 0) {
+            excelFieldList.add(createExcelCell().setExcelCellType(BLANK));
+        }
+        return rowIndex;
+    }
 
-	}
+    public void addRecord(ExcelCellType excelCellType, Object... values) {
+        newLine();
+        for (Object value : values) {
+            createExcelCell().setExcelCellType(excelCellType).setExcelCellValue(value);
+        }
+    }
 
-	public void newLine() {
-		rowIndex++;
-		columnIndex = 0;
-	}
+    public void mergeRows(int columnIndex, int frontIndex, int rearIndex) {
+        sheet.addMergedRegion(new CellRangeAddress(frontIndex, rearIndex, columnIndex, columnIndex));
+    }
+
+    public void mergeColumns(int rowIndex, int frontIndex, int rearIndex) {
+        sheet.addMergedRegion(new CellRangeAddress(rowIndex, rowIndex, frontIndex, rearIndex));
+    }
+
+    public void newLine() {
+        rowIndex++;
+        columnIndex = 0;
+    }
+
+    private ExcelCell createExcelCell() {
+        return new ExcelCell(workbook, sheet, rowIndex, columnIndex++);
+    }
 }

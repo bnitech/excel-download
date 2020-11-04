@@ -28,13 +28,4 @@ public class TinyCarExcelDto extends CarExcelDto {
 
     private List<UserDto> userList;
 
-    @Override
-    public void setExcelHeader(com.bnitech.study.demo.module.ExcelHeader excelHeader) {
-        this.excelHeader = excelHeader;
-    }
-
-    @Override
-    public int getExcelValue() {
-        return 10;
-    }
 }

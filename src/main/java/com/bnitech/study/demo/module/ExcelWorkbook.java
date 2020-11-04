@@ -1,48 +1,31 @@
 package com.bnitech.study.demo.module;
 
-import org.apache.poi.ss.SpreadsheetVersion;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class ExcelWorkbook {
+public abstract class ExcelWorkbook {
 
-    private static final SpreadsheetVersion supplyExcelVersion = SpreadsheetVersion.EXCEL2007;
+    protected Workbook workbook;
+    protected OutputStream outputStream;
 
-    private SXSSFWorkbook wb;
-    private OutputStream outputStream;
-    private Class<?> aClass;
-
-    public ExcelWorkbook() {
-        wb = new SXSSFWorkbook();
-    }
-
-    public ExcelWorkbook(OutputStream stream, Class<?> aClass) {
-        this();
-        this.outputStream = stream;
-        this.aClass = aClass;
+    public ExcelWorkbook(Workbook workbook, OutputStream outputStream) {
+        this.workbook = workbook;
+        this.outputStream = outputStream;
     }
 
     public ExcelSheet createSheet() {
-        return new ExcelSheet(wb.createSheet());
+        return new ExcelSheet(workbook, workbook.createSheet());
     }
 
     public ExcelSheet createSheet(String name) {
-        return new ExcelSheet(wb.createSheet(name));
-    }
-
-    public void write(OutputStream stream) throws IOException {
-        wb.write(stream);
-        wb.close();
-        wb.dispose();
-        stream.close();
+        return new ExcelSheet(workbook, workbook.createSheet(name));
     }
 
     public void write() throws IOException {
-        wb.write(outputStream);
-        wb.close();
-        wb.dispose();
+        workbook.write(outputStream);
+        workbook.close();
         outputStream.close();
     }
 }

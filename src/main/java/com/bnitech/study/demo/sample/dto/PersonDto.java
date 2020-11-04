@@ -1,17 +1,13 @@
 package com.bnitech.study.demo.sample.dto;
 
-import com.bnitech.study.demo.module.ExcelHeader;
-import com.bnitech.study.demo.module.dto.ExcelDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public class PersonDto extends ExcelDto {
-
-    @Override
-    protected void setExcelHeader(ExcelHeader excelHeader) {
-        super.excelHeader = excelHeader;
-    }
-
-    @Override
-    protected int getExcelValue() {
-        return 0;
-    }
+@Getter
+@AllArgsConstructor
+public class PersonDto {
+    private long id;
+    private String name;
+    private String company;
+    private int salary;
 }

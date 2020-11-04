@@ -1,6 +1,5 @@
 package com.bnitech.study.demo.dto;
 
-import com.bnitech.study.demo.module.dto.ExcelDto;
 import com.github.ckpoint.toexcel.annotation.ExcelHeader;
 import lombok.*;
 
@@ -11,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CarExcelDto extends ExcelDto {
+public class CarExcelDto {
 
     @ExcelHeader(headerName = "회사")
     private String company; // 회사
@@ -26,14 +25,4 @@ public class CarExcelDto extends ExcelDto {
     private double rating; // 평점
 
     private List<UserDto> userList;
-
-    @Override
-    public void setExcelHeader(com.bnitech.study.demo.module.ExcelHeader excelHeader) {
-        this.excelHeader = excelHeader;
-    }
-
-    @Override
-    public int getExcelValue() {
-        return 0;
-    }
 }

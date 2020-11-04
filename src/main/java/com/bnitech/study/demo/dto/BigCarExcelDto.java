@@ -27,14 +27,4 @@ public class BigCarExcelDto extends CarExcelDto {
     private double rating; // 평점
 
     private List<UserDto> userList;
-
-    @Override
-    public void setExcelHeader(com.bnitech.study.demo.module.ExcelHeader excelHeader) {
-        this.excelHeader = excelHeader;
-    }
-
-    @Override
-    public int getExcelValue() {
-        return 919191919;
-    }
 }
