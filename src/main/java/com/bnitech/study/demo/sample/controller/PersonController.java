@@ -1,7 +1,7 @@
 package com.bnitech.study.demo.sample.controller;
 
-import com.bnitech.study.demo.module.ExcelSheet;
-import com.bnitech.study.demo.module.SXSSFExcelWorkbook;
+import com.bnitech.study.demo.module.impl.ExcelSheet;
+import com.bnitech.study.demo.module.impl.SXSSFExcelWorkbook;
 import com.bnitech.study.demo.sample.dto.PersonDto;
 import com.bnitech.study.demo.sample.service.IPersonService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.bnitech.study.demo.module.enumeration.ExcelCellType.*;
+import static com.bnitech.study.demo.module.enumeration.ExcelCellTheme.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,6 +54,6 @@ public class PersonController {
             sheet.addRecord(DEFAULT_VALUE, values.toArray());
         }
 
-        workbook.write();
+        workbook.writeWorkbook();
     }
 }
