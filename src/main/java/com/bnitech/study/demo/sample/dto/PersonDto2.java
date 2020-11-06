@@ -2,28 +2,33 @@ package com.bnitech.study.demo.sample.dto;
 
 import com.bnitech.study.demo.module.annotation.BlankField;
 import com.bnitech.study.demo.module.annotation.Field;
+import com.bnitech.study.demo.module.annotation.Merge;
 import com.bnitech.study.demo.module.annotation.Sheet;
-import com.bnitech.study.demo.module.enumeration.ExcelSheetTheme;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 
 @Getter
 @AllArgsConstructor
-@Sheet(excelSheetTheme = ExcelSheetTheme.WHITE)
-public class PersonDto {
+@Sheet(enableMerge = true, enableSetFieldPosition = true)
+public class PersonDto2 {
 
     private long id;
 
     @Field
-    private String name;
+    @Merge(rowSpan = 2)
+    private final String name;
 
     @BlankField
     private boolean none;
 
-    @Field
+    @Field(name = "INFO")
+    @Merge(colSpan = 2)
+    private String info;
+
+    @Field(rowindex = 1, columnIndex = 2)
     private String company;
 
-    @Field(name = "급여")
+    @Field(name = "급여", rowindex = 1, columnIndex = 3)
     private int salary;
 }

@@ -84,9 +84,7 @@ public class ExcelCell implements IExcelCell {
     /**
      * Cell Width Size 조절
      */
-    private void setCellSize(ExcelCellSize excelCellSize) {
-        sheet.setFieldWidth(cell.getColumnIndex(), excelCellSize.getCellWidth());
-    }
+    private void setCellSize(ExcelCellSize excelCellSize) { }
 
     /**
      * Cell Date Type 세팅
